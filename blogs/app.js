@@ -10,6 +10,7 @@ mongoose.connect('mongodb://localhost:27017/blogsite');
 var blogschema = new mongoose.Schema({
    title: String,
    image: String,
+   comments: [{author: String,content: String}],
    desc: String
 });
 
@@ -49,18 +50,44 @@ app.get("/blogs/:id",function(req,res){
              
          }
          else {
-             //console.log(user)
+             //console.log("the length of comments rray is "+user.comments.length);
              res.render("detailblog",{user: user})
          }
      });
      
 });
 
+app.get("/blogs/:id/addcomment",function(req,res){
+	Blog.findById(req.params.id,function(err,user){
+		if(err) console.log(err);
+		else
+		{
+			res.render("comment",{user:user});
+		}
+	});
+	//res.render("comment",{ID: req.params.id});
+});
+
+app.post("/blogs/:id",function(req,res){
+	Blog.findById(req.params.id,function(err,blog){
+		if(err) console.log(err);
+		else
+		{
+			blog.comments.push({author:req.body.Author,content:req.body.Content});
+			blog.save();
+			//res.redirect("/blogs/"+req.params.id);
+			console.log(blog.comments);
+			res.redirect("/blogs/"+req.params.id);
+		}
+	});
+	//res.send("this is a post request in a detailed blog page !")
+});
+
 app.post("/blogs",function(req,res){
     var blog = {title: req.body.title,image: req.body.image,desc: req.body.desc};
     Blog.create(blog,function(err,blg){
         if(err) console.log("error in adding!");
-        else console.log(blog);
+        //else console.log(blog);
     });
     res.redirect("/");
 });

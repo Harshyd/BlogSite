@@ -7,6 +7,22 @@
     <hr>
     <p><%= user.desc %></p>
     <hr>
+
+    <ul class="list-group">
+   <% user.comments.forEach(function(com){ %>
+
+   <li class="list-group-item"> <%= com.content %> </li>
+
+   <% }); %>
+    </ul>
+
+    <hr>
+
+    <form action="/blogs/<%= user._id %>/addcomment" method="GET"><button class="btn btn-primary"> Add a comment ! </button></form>
+
+    <hr>
+
 </div>
+
 
 <% include partials/footer%>
