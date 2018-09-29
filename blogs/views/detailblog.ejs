@@ -11,7 +11,7 @@
     <ul class="list-group">
    <% user.comments.forEach(function(com){ %>
 
-   <li class="list-group-item"> <%= com.content %> </li>
+   <li class="list-group-item"> <b><%= com.author %> - </b>     <%= com.content %> </li>
 
    <% }); %>
     </ul>
