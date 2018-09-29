@@ -2,6 +2,7 @@ var app = require("express")();
 var mongoose = require("mongoose");
 var bodyparser = require("body-parser");
 var User = require("./models/user");
+var Blog = require("./models/blogs")
 var passport = require("passport");
 var local = require("passport-local");
 var plm = require("passport-local-mongoose");
@@ -34,21 +35,6 @@ app.use(function(req,res,next){
 
 mongoose.connect('mongodb://localhost:27017/blogsite');
 
-
-var blogschema = new mongoose.Schema({
-   title: String,
-   image: String,
-   comments: [{author: String,content: String}],
-   desc: String
-});
-
-var Blog = mongoose.model("blog",blogschema);
-
-// Blog.deleteMany({_id:"5b8a57ae184e480f1cf7ddfe"},function(err,bg){
-//     if(err) console.log("error in deletion!");
-//     else console.log("fine !");
-// });
-
 app.get("/",function(req,res){
   Blog.find({},function(err,blogs){
       if(err) console.log("error in landing !");
@@ -71,15 +57,15 @@ app.delete("/blogs/:id",function(req,res){
 });
 
 app.get("/blogs/:id",function(req,res){
-     var userid = req.params.id;
-     Blog.findById(userid,function(err,user){
+     var blogid = req.params.id;
+     Blog.findById(blogid,function(err,blog){
          if(err) {
              console.log(err)
              
          }
          else {
              //console.log("the length of comments rray is "+user.comments.length);
-             res.render("detailblog",{user: user})
+             res.render("detailblog",{blog: blog})
          }
      });
      
@@ -112,7 +98,10 @@ app.post("/blogs/:id",function(req,res){
 });
 
 app.post("/blogs",function(req,res){
-    var blog = {title: req.body.title,image: req.body.image,desc: req.body.desc};
+  var d = new Date();
+  d = String(d);
+  d = d.slice(0,15);
+    var blog = {title: req.body.title,image: req.body.image,desc: req.body.desc,date: d,creator : currentUser._id};
     Blog.create(blog,function(err,blg){
         if(err) console.log("error in adding!");
         //else console.log(blog);

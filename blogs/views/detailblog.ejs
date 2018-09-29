@@ -1,15 +1,17 @@
 <% include partials/header %>
 
 <div class="container">
-    <h2><%=user.title %></h2>
-    <img src="<%= user.image %>">
+    <h2><%=blog.title %></h2>
+    <img src="<%= blog.image %>">
     <br>
+    <br>
+    <p><b>created on <%= blog.date %></b></p>
     <hr>
-    <p><%= user.desc %></p>
+    <p><%= blog.desc %></p>
     <hr>
 
     <ul class="list-group">
-   <% user.comments.forEach(function(com){ %>
+   <% blog.comments.forEach(function(com){ %>
 
    <li class="list-group-item"> <b><%= com.author %> - </b>     <%= com.content %> </li>
 
@@ -18,7 +20,7 @@
 
     <hr>
 
-    <form action="/blogs/<%= user._id %>/addcomment" method="GET"><button class="btn btn-primary"> Add a comment ! </button></form>
+    <form action="/blogs/<%= blog._id %>/addcomment" method="GET"><button class="btn btn-primary"> Add a comment ! </button></form>
 
     <hr>
 
