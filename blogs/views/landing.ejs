@@ -8,7 +8,9 @@
       <p class="lead">This Site is Designed so that You can Create , Update , View and Delete your Blogs !</p>
       <hr class="my-4">
       <p>Enjoy some of the amazing stuffs in the Blogs on our Website !</p>
+      <% if(currentUser){ %>
       <a class="btn btn-primary btn-lg" href="/blogs/create" role="button">Create a Blog</a>
+      <% } %>
     </div>
     <div class="col lg-12">
         <% blogs.forEach(function(blog){ %>
