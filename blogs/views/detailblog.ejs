@@ -6,6 +6,16 @@
     <br>
     <br>
     <p><b>created on <%= blog.date %></b></p>
+    <% if(!currentUser) { %>
+    <p> By :- <%= name %> </p>
+    <% } else { %>
+    <% if(currentUser.username === name){ %>
+    <p> By :- You</p>
+    <% } else { %>
+    <%= name %>
+    <% } %>
+    <% } %>
+
     <hr>
     <p><%= blog.desc %></p>
     <hr>

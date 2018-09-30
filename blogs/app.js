@@ -64,8 +64,15 @@ app.get("/blogs/:id",function(req,res){
              
          }
          else {
-             //console.log("the length of comments rray is "+user.comments.length);
-             res.render("detailblog",{blog: blog})
+          User.findById(blog.creator,function(err,user){
+            if(err){
+              console.log(err);
+            }
+            else
+            {
+              res.render("detailblog",{blog:blog,name:user.username});
+            }
+          });
          }
      });
      
@@ -101,12 +108,24 @@ app.post("/blogs",function(req,res){
   var d = new Date();
   d = String(d);
   d = d.slice(0,15);
-    var blog = {title: req.body.title,image: req.body.image,desc: req.body.desc,date: d,creator : currentUser._id};
+  var id = String(req.user._id);
+  User.findById(id,function(err,user){
+    if(err)
+    {
+      console.log(err);
+    }
+    else
+    {
+      //console.log(user.username);
+      var blog = {title: req.body.title,image: req.body.image,desc: req.body.desc,date: d,creator: user._id};
     Blog.create(blog,function(err,blg){
         if(err) console.log("error in adding!");
         //else console.log(blog);
     });
     res.redirect("/");
+    }
+  });
+    
 });
 
 app.get("/register",function(req,res){
