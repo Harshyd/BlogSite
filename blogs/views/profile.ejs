@@ -1,0 +1,34 @@
+<% include partials/header %>
+
+ <% blogs.forEach(function(blog){ %>
+	<div class="container">
+    <h2><%=blog.title %></h2>
+    <img src="<%= blog.image %>">
+    <br>
+    <br>
+    <p><b>created on <%= blog.date %></b></p>
+    <p> By : - <%= currentUser.username %></p>
+
+    <hr>
+    <p><%= blog.desc %></p>
+    <hr>
+
+    <ul class="list-group">
+   <% blog.comments.forEach(function(com){ %>
+
+   <li class="list-group-item"> <b><%= com.author %> - </b>     <%= com.content %> </li>
+
+   <% }); %>
+    </ul>
+
+    <hr>
+
+    <form action="/blogs/<%= blog._id %>/addcomment" method="GET"><button class="btn btn-primary"> Add a comment ! </button></form>
+
+    <hr>
+
+</div>
+
+<% }); %>
+
+<% include partials/footer %>

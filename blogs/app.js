@@ -128,6 +128,16 @@ app.post("/blogs",function(req,res){
     
 });
 
+app.get("/profile",isloggedin,function(req,res){
+  var s = req.user._id;
+  s = String(s);
+  Blog.find({creator: s},function(err,blogs){
+    if(err){console.log(err);}
+    else
+    res.render("profile",{blogs:blogs});
+  });
+});
+
 app.get("/register",function(req,res){
   res.render("register");
 });
