@@ -1,5 +1,7 @@
 <% include partials/header %>
 
+<div class="container"><h1 style="text-align:center">Welcome <%= currentUser.username %> !</h1></div>
+
  <% blogs.forEach(function(blog){ %>
 	<div class="container">
     <h2><%=blog.title %></h2>
@@ -7,7 +9,7 @@
     <br>
     <br>
     <p><b>created on <%= blog.date %></b></p>
-    <p> By : - <%= currentUser.username %></p>
+   
 
     <hr>
     <p><%= blog.desc %></p>
