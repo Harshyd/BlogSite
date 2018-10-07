@@ -1,4 +1,5 @@
-var app = require("express")();
+var express = require("express");
+var app = express();
 var mongoose = require("mongoose");
 var bodyparser = require("body-parser");
 var User = require("./models/user");
@@ -6,8 +7,11 @@ var Blog = require("./models/blogs")
 var passport = require("passport");
 var local = require("passport-local");
 var plm = require("passport-local-mongoose");
+var path = require("path");
 app.set("view engine","ejs");
 var methodOverride = require("method-override");
+
+app.use(express.static("public"));
 
 //====using the required packages ! =====
 app.use(bodyparser.urlencoded({extended : true}));

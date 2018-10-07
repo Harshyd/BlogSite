@@ -1,6 +1,6 @@
 <% include partials/header %>
 
-<div class="container">
+<div class="container" style="color:white">
     <h2><%=blog.title %></h2>
     <img src="<%= blog.image %>">
     <br>
@@ -16,23 +16,23 @@
     <% } %>
     <% } %>
 
-    <hr>
+   
     <p><%= blog.desc %></p>
-    <hr>
+   
 
-    <ul class="list-group">
+    <ul class="list-group" style="margin-top:50px;margin-bottom:50px;">
    <% blog.comments.forEach(function(com){ %>
 
-   <li class="list-group-item"> <b><%= com.author %> - </b>     <%= com.content %> </li>
+   <li class="list-group-item" style="color:white;background-color:rgba(0,0,0,0.5)"> <b><%= com.author %> - </b>     <%= com.content %> </li>
 
    <% }); %>
     </ul>
 
-    <hr>
+   
 
     <form action="/blogs/<%= blog._id %>/addcomment" method="GET"><button class="btn btn-primary"> Add a comment ! </button></form>
 
-    <hr>
+    
 
 </div>
 
