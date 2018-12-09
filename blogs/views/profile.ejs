@@ -1,9 +1,9 @@
 <% include partials/header %>
 
-<div class="container"><h1 style="text-align:center">Welcome <%= currentUser.username %> !</h1></div>
+<div class="container"><h1 style="text-align:center; color:white">Welcome <%= currentUser.username %> !</h1></div>
 
  <% blogs.forEach(function(blog){ %>
-	<div class="container">
+	<div class="container" style="color:white;border: 1px solid white;margin-bottom:10px;padding:10px">
     <h2><%=blog.title %></h2>
     <img src="<%= blog.image %>">
     <br>
@@ -11,9 +11,9 @@
     <p><b>created on <%= blog.date %></b></p>
    
 
-    <hr>
+    
     <p><%= blog.desc %></p>
-    <hr>
+    
 
     <ul class="list-group">
    <% blog.comments.forEach(function(com){ %>
@@ -23,11 +23,11 @@
    <% }); %>
     </ul>
 
-    <hr>
+    
 
     <form action="/blogs/<%= blog._id %>/addcomment" method="GET"><button class="btn btn-primary"> Add a comment ! </button></form>
 
-    <hr>
+    
 
 </div>
 
