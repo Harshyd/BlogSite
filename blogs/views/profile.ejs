@@ -3,7 +3,7 @@
 <div class="container"><h1 style="text-align:center; color:white">Welcome <%= currentUser.username %> !</h1></div>
 
  <% blogs.forEach(function(blog){ %>
-	<div class="container" style="color:white;border: 1px solid white;margin-bottom:10px;padding:10px">
+	<div class="container" style="color:white;border: 1px solid white;margin-bottom:40px;padding:25px">
     <h2><%=blog.title %></h2>
     <img src="<%= blog.image %>">
     <br>
@@ -18,7 +18,7 @@
     <ul class="list-group">
    <% blog.comments.forEach(function(com){ %>
 
-   <li class="list-group-item"> <b><%= com.author %> - </b>     <%= com.content %> </li>
+   <li class="list-group-item" style="color:black"> <b><%= com.author %> - </b>     <%= com.content %> </li>
 
    <% }); %>
     </ul>

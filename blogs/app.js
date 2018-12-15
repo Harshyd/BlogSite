@@ -82,6 +82,30 @@ app.get("/blogs/:id",function(req,res){
      
 });
 
+var fsearch = function()
+{
+	var ul,li,a,filter;
+	filter = document.getElementById("search").value.toUpperCase();
+	ul = document.getElementsByTagName("ul")[0];
+	li = ul.getElementsByTagName("li");
+	for(var i=0;i<li.length();i++)
+	{
+	console.log(li[i].getElementsByTagName("a")[0].innerHTML.toUpperCase());
+	if(li[i].getElementsByTagName("a")[0].innerHTML.toUpperCase().indexOf(filter)>-1) li[i].style.display = "none";
+	else li[i].style.display = "none";
+	}
+	
+
+}
+
+app.get("/search",function(req,res){
+	User.find(function(err,users)
+	{
+		if(err) console.log(err);
+		else res.render("sch",{users:users}); 
+	});	
+});
+
 app.get("/blogs/:id/addcomment",isloggedin,function(req,res){
 	Blog.findById(req.params.id,function(err,user){
 		if(err) console.log(err);
