@@ -24,11 +24,6 @@ body {
   box-sizing: border-box;
 }
 
-/* Create a column layout with Flexbox */
-.row {
-  display: flex;
-}
-
 /* Left column (menu) */
 .left {
   flex: 35%;
@@ -37,12 +32,6 @@ body {
 
 .left h2 {
   padding-left: 8px;
-}
-
-/* Right column (page content) */
-.right {
-  flex: 65%;
-  padding: 15px;
 }
 
 /* Style the search box */
@@ -70,7 +59,8 @@ body {
 }
 
 #myMenu li a:hover {
-  background-color: #eee;
+  background-color: white;
+  color:black;
 }
 
 
@@ -126,26 +116,42 @@ body {
     <h2>Menu</h2>
     <input type="text" id="mySearch" onkeyup="myFunction()" placeholder="Search.." title="Type in a category">
     <ul id="myMenu">
-      <li><a href="#">HTML</a></li>
-      <li><a href="#">CSS</a></li>
-      <li><a href="#">JavaScript</a></li>
-      <li><a href="#">PHP</a></li>
-      <li><a href="#">Python</a></li>
-      <li><a href="#">jQuery</a></li>
-      <li><a href="#">SQL</a></li>
-      <li><a href="#">Bootstrap</a></li>
-      <li><a href="#">Node.js</a></li>
+      <% users.forEach(function(user){ %>
+      <li style="display:none"><a href="#"><%= user.username %></a></li>
+      <% }); %>
     </ul>
   </div>
 </div>
 
 <script>
+
+ input = document.getElementById("mySearch");
+  filter = input.value.toUpperCase();
+  ul = document.getElementById("myMenu");
+  li = ul.getElementsByTagName("li");
+
+  if(filter.length === 0)
+  {
+  for(i=0;i<li.length;i++)
+  {
+  li[i].style.display = "none";
+  }
+  }
+
 function myFunction() {
   var input, filter, ul, li, a, i;
   input = document.getElementById("mySearch");
   filter = input.value.toUpperCase();
   ul = document.getElementById("myMenu");
   li = ul.getElementsByTagName("li");
+
+  if(input.value.length == 0){
+        ul.style.display = "none";
+        return;
+    }else{
+        ul.style.display = "block";
+    }
+  
   for (i = 0; i < li.length; i++) {
     a = li[i].getElementsByTagName("a")[0];
     if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
