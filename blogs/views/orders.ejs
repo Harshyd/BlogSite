@@ -1,0 +1,15 @@
+<% include partials/header %>
+
+<div class="container">
+   <% orders.forEach(function(blog){ %>
+        <h2><%=blog.item.title %></h2>
+        <img src="<%= blog.item.image %>">
+        <p><b>ordered by :- <%= blog.buyer.username %></b></p>
+       <p>price:- <%=blog.item.price %></p>
+       <p>at address :- <%=blog.address %></p>
+        <p><%= blog.item.desc %></p>
+  <%  });  %>
+       
+</div>
+
+<% include partials/footer %>

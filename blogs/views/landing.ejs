@@ -21,7 +21,7 @@
                     <a href="/blogs/<%=blog._id%>" class="btn btn-primary">Read More !</a> 
                     
                     <% if(currentUser){ %>
-                    <% if(String(currentUser._id) === blog.creator ){ %>
+                    <% if(String(currentUser._id) === String(blog.seller) ){ %>
                     <form action="/blogs/<%= blog._id%>?_method=DELETE" method="POST" style="display:inline-block">
                        <button class="btn btn-primary" type="submit"><span><i class="fa fa-trash" aria-hidden="true"></i></span></button>
                     </form>

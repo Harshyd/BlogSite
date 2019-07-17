@@ -9,9 +9,7 @@
 	body
 	{
 
-		background-image: url("http://localhost:3000/background.jpeg");
-		background-size: auto;
-    background-attachment: fixed;
+		color:black;
     margin-top: 70px;
     margin-bottom: 30px;
 	}
@@ -39,10 +37,10 @@
             </div>
         </nav> -->
 
-  <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: rgba(0,0,0,0.7) ">
+  <nav class="navbar navbar-inverse navbar-fixed-top" style="background-color: grey ">
   <div class="container-fluid">
     <div class="navbar-header">
-       <a class="navbar-brand" href="/" style="color:green">Blog Site <i class="fas fa-code"></i></a>
+       <a class="navbar-brand" href="/" style="color:black">Blog Site <i class="fas fa-code"></i></a>
     </div>
     
     <div class="collapse navbar-collapse">
@@ -52,6 +50,11 @@
                         <li><a href="/login">Login</a></li>
                         <li><a href="/register">Sign Up</a></li>
                         <% } else { %>
+                        <% if(currentUser.seller) { %>
+                            <li><a href="/orders">orders</b></a></li>   
+                        <% } if(currentUser.buyer) { %>
+                            <li><a href="/myorders">my orders</b></a></li> 
+                        <% } %>
                         <li><a href="/profile">signed in as <b><%= currentUser.username %></b></a></li>
                         <li><a href="/logout">LogOut</a></li>
                         <% } %>

@@ -1,6 +1,6 @@
 <% include partials/header %>
 <div class="container">
-<form action="/blogs" method="POST">
+  <form action="/blogs" method="POST">
   <div class="form-group">
     <label for="exampleFormControlInput1">Title</label>
     <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter your Title !" name="title">
@@ -11,7 +11,11 @@
     <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Enter image URL !" name="image">
   </div>
   
-  
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Price</label>
+    <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="Enter the Price" name="price">
+  </div>
+
   <div class="form-group">
     <label for="exampleFormControlTextarea1">Description</label>
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="desc"></textarea>

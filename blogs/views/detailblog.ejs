@@ -1,29 +1,23 @@
 <% include partials/header %>
 
-<div class="container" style="color:white">
+<div class="container" style="color:black">
     <h2><%=blog.title %></h2>
     <img src="<%= blog.image %>">
     <br>
     <br>
-    <p><b>created on <%= blog.date %></b></p>
-    <% if(!currentUser) { %>
-    <p> By :- <%= name %> </p>
-    <% } else { %>
-    <% if(currentUser.username === name){ %>
-    <p> By :- You</p>
-    <% } else { %>
-    <%= name %>
-    <% } %>
-    <% } %>
+    <p><b>seller :- <%= blog.seller %></b></p>
+   <p>price:- <%=blog.price %></p>
+
 
    
     <p><%= blog.desc %></p>
-   
+
+    <form action="/buy/<%= blog._id %>" method="GET"><button class="btn btn-primary"> Buy Now ! </button></form>
 
     <ul class="list-group" style="margin-top:50px;margin-bottom:50px;">
    <% blog.comments.forEach(function(com){ %>
 
-   <li class="list-group-item" style="color:white;background-color:rgba(0,0,0,0.5)"> <b><%= com.author %> - </b>     <%= com.content %> </li>
+   <li class="list-group-item" style="color:black;"> <b><%= com.author %> - </b>     <%= com.content %> </li>
 
    <% }); %>
     </ul>

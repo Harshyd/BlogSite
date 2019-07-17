@@ -2,8 +2,10 @@ var express = require("express");
 var app = express();
 var mongoose = require("mongoose");
 var bodyparser = require("body-parser");
+var Order = require('./models/order');
 var User = require("./models/user");
-var Blog = require("./models/blogs")
+var Blog = require("./models/blogs");
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 var passport = require("passport");
 var local = require("passport-local");
 var plm = require("passport-local-mongoose");
@@ -68,7 +70,7 @@ app.get("/blogs/:id",function(req,res){
              
          }
          else {
-          User.findById(blog.creator,function(err,user){
+          User.findById(blog.seller,function(err,user){
             if(err){
               console.log(err);
             }
@@ -145,7 +147,7 @@ app.post("/blogs",function(req,res){
     else
     {
       //console.log(user.username);
-      var blog = {title: req.body.title,image: req.body.image,desc: req.body.desc,date: d,creator: user._id};
+      var blog = {title: req.body.title,image: req.body.image,price: req.body.price,desc: req.body.desc,seller: user._id};
     Blog.create(blog,function(err,blg){
         if(err) console.log("error in adding!");
         //else console.log(blog);
@@ -166,12 +168,80 @@ app.get("/profile",isloggedin,function(req,res){
   });
 });
 
+app.get("/orders",function(req,res){
+  var id = String(req.user._id);
+  User.findById(id,function(err,user){
+    user.deepPopulate('sellorders.buyer sellorders.item',function(err,user){
+      if(err) console.log(err);
+      else 
+      {
+        console.log(user.sellorders);
+        res.render("orders",{orders:user.sellorders});
+      }
+    });
+  });
+});
+
+app.get("/myorders",function(req,res){
+  var id = String(req.user._id);
+  User.findById(id,function(err,user){
+    user.deepPopulate('buyorders.seller buyorders.item',function(err,user){
+      if(err) console.log(err);
+      else 
+      {
+        res.render("myorders",{orders:user.buyorders});
+      }
+    });
+  });
+});
+
+app.get("/buy/:id",isloggedin,function(req,res){
+  console.log('buy called ')
+  Blog.findById({_id:req.params.id},function(err,blog){
+    if(err) console.log(err);
+    else
+    {
+      res.render("buy",{blog:blog});
+    }
+  });
+});
+
+app.post("/placeorder/:id",function(req,res){
+  Blog.findById({_id:req.params.id},function(err,blog){
+    if(err) console.log(err);
+    else
+    {
+      var id = String(req.user._id);
+      var d = new Date();
+      d = String(d);
+      d = d.slice(0,15);
+      Order.create({seller:blog.seller,buyer:id,item:blog._id,date: d,status:"undelivered",address: req.body.address,contact:req.body.contact},function(err,order){
+       
+        User.findById({_id:blog.seller},function(err,user){
+          user.sellorders.unshift(order._id);
+          user.save(function(err,user){
+            if(err) console.log(err);
+            else {
+              User.findById({_id:order.buyer},function(err,user){
+                user.buyorders.unshift(order._id);
+                user.save();
+              });
+            }
+          });
+        });
+      });
+      res.redirect("/"); 
+    }
+  });
+});
+
 app.get("/register",function(req,res){
   res.render("register");
 });
 
 app.post("/register",function(req,res){
-  User.register(new User({username:req.body.username}),req.body.password,function(err,user){
+  console.log(req.body.isseller);
+  User.register(new User({username:req.body.username,seller:(req.body.isseller=="on"),buyer:(req.body.isbuyer=="on")}),req.body.password,function(err,user){
     if(err)
     {
       console.log(err);
