@@ -4,6 +4,7 @@ var passport = require("passport");
 var deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 var userSchema = new mongoose.Schema({
+	email : String,
 	username : String,
 	password : String,
 	name : String,

@@ -5,6 +5,7 @@ var bodyparser = require("body-parser");
 var Order = require('./models/order');
 var User = require("./models/user");
 var Blog = require("./models/blogs");
+var nodemailer = require('nodemailer');
 var deepPopulate = require('mongoose-deep-populate')(mongoose);
 var passport = require("passport");
 var local = require("passport-local");
@@ -14,6 +15,14 @@ app.set("view engine","ejs");
 var methodOverride = require("method-override");
 
 app.use(express.static("public"));
+
+var transporter = nodemailer.createTransport({
+  service : 'gmail',
+  auth :{
+    user : 'yadavharsh400@gmail.com',
+    pass: 'harshyadavrocks'
+  }
+});
 
 //====using the required packages ! =====
 app.use(bodyparser.urlencoded({extended : true}));
@@ -223,6 +232,15 @@ app.post("/placeorder/:id",function(req,res){
             if(err) console.log(err);
             else {
               User.findById({_id:order.buyer},function(err,user){
+                transporter.sendMail({
+                  from : 'yadavharsh400@gmail.com',
+                  to : user.email,
+                  text : (blog.title + ' has been sent to you '),
+                  subject : 'order placing'
+                },function(err,info){
+                  if(err) console.log(err);
+                  else console.log(info.response);
+                });
                 user.buyorders.unshift(order._id);
                 user.save();
               });
@@ -241,7 +259,7 @@ app.get("/register",function(req,res){
 
 app.post("/register",function(req,res){
   console.log(req.body.isseller);
-  User.register(new User({username:req.body.username,seller:(req.body.isseller=="on"),buyer:(req.body.isbuyer=="on")}),req.body.password,function(err,user){
+  User.register(new User({email: req.body.email,username:req.body.username,seller:(req.body.isseller=="on"),buyer:(req.body.isbuyer=="on")}),req.body.password,function(err,user){
     if(err)
     {
       console.log(err);
